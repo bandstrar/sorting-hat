@@ -11,7 +11,8 @@ const houseArray = [
     'Ravenclaw',
     'Slytherin'
 ]
-const randomHouse = houseArray[Math.floor(Math.random() * houseArray.length)];
+
+const studentArray = []
 
 const buildForm = () => {
     let domString = '';
@@ -30,32 +31,45 @@ const buildForm = () => {
   </form>`
 
   printToDom('sortForm', domString);
+
+  document.querySelector('#formBtn').addEventListener('click', buildStudent)
+  document.querySelector('#formBtn').addEventListener('click', buildCards)
+}
+
+const buildStudent = (e) => {
+  let buttonId = e.target.id;
+  let randomHouse = houseArray[Math.floor(Math.random() * houseArray.length)];
+
+  if (buttonId === 'formBtn') {
+    studentArray.push({name: `${inputStudent.value}`, house: `${randomHouse}`})
+  }
 }
 
 const buildCards = (e) => {
     let buttonId = e.target.id;
     let domString = ''
-    if (buttonId === 'formBtn')
+    
+    if (buttonId === 'formBtn'){
+      for (let i = 0; i < studentArray.length; i++) {
     domString += `<div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-name">${inputStudent}.value</h5>
-    <p class="card-text">${randomHouse}</p>
+    <div class="card-body">
+    <h5 class="card-name">${studentArray[i].name}</h5>
+    <p class="card-text">${studentArray[i].house}</p>
     <a href="#" class="btn btn-primary">Expel</a>
   </div>
 </div>`
+    }
+  }
 
 printToDom('studentCards', domString)
+
     }
 
 
-
-const buttonEvents = () => {
-    const startButtonEvent = document.querySelector('#startBtn').addEventListener('click', buildForm)
-    document.querySelector('#startBtn').addEventListener('click', buildForm)
-    if (startButtonEvent) {
-    document.querySelector('#formBtn').addEventListener('click', buildCards)
+    const buttonEvents = () => {
+      document.querySelector('#startBtn').addEventListener('click', buildForm)
     }
-}
+
 
 const init = () => {
     buttonEvents();
